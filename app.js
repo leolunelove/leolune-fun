@@ -29,6 +29,7 @@ window.addEventListener('popstate',()=>{const p=projects.find(p=>p.id===location
 // Keep image browsing in the project, with native modal focus management.
 const imageViewer=document.createElement('dialog');
 imageViewer.className='image-viewer';
+imageViewer.tabIndex=-1;
 imageViewer.setAttribute('aria-label','Project image viewer');
 imageViewer.setAttribute('aria-describedby','viewer-caption');
 imageViewer.innerHTML=`<div class="viewer-shell"><header class="viewer-toolbar"><div><span class="viewer-project"></span><p id="viewer-caption"></p></div><button class="viewer-close" aria-label="Close image viewer">Close <span aria-hidden="true">×</span></button></header><div class="viewer-stage"><button class="viewer-prev" aria-label="Previous image">‹</button><img class="viewer-image" alt="" draggable="false"><button class="viewer-next" aria-label="Next image">›</button></div><footer class="viewer-footer"><span class="viewer-count" aria-live="polite"></span><div class="viewer-thumbs" aria-label="Choose an image"></div><span class="viewer-hint">← → to browse</span></footer></div>`;
@@ -50,7 +51,7 @@ function showImage(index){
 function openImage(index,trigger){
  imageProject=active;imageTrigger=trigger;
  imageViewer.querySelector('.viewer-thumbs').innerHTML=imageProject.media.map((m,i)=>`<button data-view-image="${i}" aria-label="View image ${i+1}: ${escapeHTML(m.caption)}" aria-pressed="false"><img src="${m.src}" alt="" loading="lazy"></button>`).join('');
- showImage(index);imageViewer.showModal();imageViewer.querySelector('.viewer-close').focus();
+ showImage(index);imageViewer.showModal();imageViewer.scrollTop=0;imageViewer.focus({preventScroll:true});
 }
 function closeImage(){imageViewer.close();if(imageTrigger?.isConnected)imageTrigger.focus({preventScroll:true});imageProject=null;touchStart=null;}
 surface.addEventListener('click',e=>{const link=e.target.closest('[data-image-index]');if(link){e.preventDefault();openImage(Number(link.dataset.imageIndex),link)}});
