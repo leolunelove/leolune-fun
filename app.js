@@ -31,8 +31,7 @@ const imageViewer=document.createElement('dialog');
 imageViewer.className='image-viewer';
 imageViewer.tabIndex=-1;
 imageViewer.setAttribute('aria-label','Project image viewer');
-imageViewer.setAttribute('aria-describedby','viewer-caption');
-imageViewer.innerHTML=`<div class="viewer-shell"><header class="viewer-toolbar"><div><span class="viewer-project"></span><p id="viewer-caption"></p></div><button class="viewer-close" aria-label="Close image viewer">Close <span aria-hidden="true">×</span></button></header><div class="viewer-stage"><button class="viewer-prev" aria-label="Previous image">‹</button><img class="viewer-image" alt="" draggable="false"><button class="viewer-next" aria-label="Next image">›</button></div><footer class="viewer-footer"><span class="viewer-count" aria-live="polite"></span><div class="viewer-thumbs" aria-label="Choose an image"></div><span class="viewer-hint">← → to browse</span></footer></div>`;
+imageViewer.innerHTML=`<div class="viewer-shell"><header class="viewer-toolbar"><div><span class="viewer-project"></span></div><button class="viewer-close" aria-label="Close image viewer">Close <span aria-hidden="true">×</span></button></header><div class="viewer-stage"><button class="viewer-prev" aria-label="Previous image">‹</button><img class="viewer-image" alt="" draggable="false"><button class="viewer-next" aria-label="Next image">›</button></div><footer class="viewer-footer"><span class="viewer-count" aria-live="polite"></span><div class="viewer-thumbs" aria-label="Choose an image"></div><span class="viewer-hint">← → to browse</span></footer></div>`;
 document.body.append(imageViewer);
 let imageIndex=0,imageProject=null,imageTrigger=null,touchStart=null;
 function showImage(index){
@@ -41,7 +40,6 @@ function showImage(index){
  const item=imageProject.media[imageIndex],img=imageViewer.querySelector('.viewer-image');
  img.src=item.src;img.alt=item.alt||item.caption;
  imageViewer.querySelector('.viewer-project').textContent=imageProject.name;
- imageViewer.querySelector('#viewer-caption').textContent=item.caption;
  imageViewer.querySelector('.viewer-count').textContent=`${imageIndex+1} / ${imageProject.media.length}`;
  imageViewer.querySelectorAll('[data-view-image]').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===imageIndex)));
  const single=imageProject.media.length<2;
